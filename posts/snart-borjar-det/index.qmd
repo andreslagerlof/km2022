@@ -1,7 +1,7 @@
 ---
 title: "Snart börjar det igen!"
 title-block-banner-color: green
-author: "Gohst writer"
+author: "Andrés"
 description: "Lite matnyttig information inför den stundande KM-säsongen"
 date: "2022-09-19"
 image: "thumbnail.jpg"
