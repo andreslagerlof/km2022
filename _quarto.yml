@@ -2,6 +2,7 @@ project:
   type: website
 
 website:
+  google-analytics: "G-71GDQDTH47"
   title: "FFF KM"
   open-graph: true
   favicon: favicon-16x16.png
