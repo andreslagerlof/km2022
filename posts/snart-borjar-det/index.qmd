@@ -16,7 +16,7 @@ library(here)
 ```
 
 ::: column-page
-![](thumbnail.jpg)
+![Foto: Ben White, på Unsplash.com](thumbnail.jpg)
 :::
 
 Väntan har varit lång, men nu kan vi äntligen se ljuset i slutet av tunneln. Här kommer lite matnyttig information till alla er som vi vet har legat i hårdträning, med KM som främsta mål.
