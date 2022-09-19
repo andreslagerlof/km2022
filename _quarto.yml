@@ -1,0 +1,28 @@
+project:
+  type: website
+
+website:
+  title: "FFF KM"
+  open-graph: true
+  favicon: favicon-16x16.png
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/andreslagerlof/km2022
+    logo: fff_logo_50pct.png
+    background: light
+  page-footer: 
+    left: "FFF KM"
+    right: "Sportcheferna FFF"
+    border: true
+    background: light
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    
+
+
+editor: visual
+

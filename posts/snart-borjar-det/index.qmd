@@ -1,0 +1,81 @@
+---
+title: "Snart börjar det igen!"
+title-block-banner-color: green
+author: "Gohst writer"
+description: "Lite matnyttig information inför den stundande KM-säsången"
+date: "2022-09-19"
+image: "thumbnail.jpg"
+---
+
+```{r}
+#| echo: false
+#| message: false
+library(tidyverse)
+library(gt)
+library(here)
+```
+
+::: column-page
+![](thumbnail.jpg)
+:::
+
+Väntan har varit lång, men nu kan vi äntligen se ljuset i slutet av tunneln. Här kommer lite matnyttig information till alla er som vi vet har legat i hårdträning, med KM som främsta mål.
+
+## Vi börjar med tid och plats
+
+Som vanligt kör vi på FFF med start kl. 19:00, anmälan öppnar kl. 18:45 och här har ni samtliga datum till årets 5 deltävlingar:
+
+-   Tisdagen den 27 september
+
+-   Torsdagen den 20 oktober
+
+-   Torsdagen den 10 november
+
+-   Tisdagen den 24 november
+
+-   Torsdagen den 8 december
+
+Och som vanligt är det de bästa resultaten från 4 av de 5 deltävlingarna som används för slutplaceringen.
+
+Vidare körs varje deltävling som en stor poule där alla möter alla. Se till att ha din utrustning i topptrim. Du kommer troligen behöva minst 2 värjor.
+
+## En kort promenad längs minnenas stig
+
+Förra årets KM var ett oförglömligt minne! Hårda strider men som vanligt i en positiv stämning vars like är svår att hitta. Redan från start presenterade sig Karsten och längs hela resan släppte han aldrig av på gasen utan fick till sist återigen rista in sitt ädla namn i KM-plaketten.
+
+![](karsten_seger.jpg){fig-alt="Karsten KM-vinnare 2021"}
+
+Visst var Grigori också med och varje gång han ställde upp gick han ut som segrare, men dessvärre gav hans tuffa tävlingschema endast utrymme för tre starter, vilket gjorde att han aldrig på allvar kunde ta upp striden om förstaplatsen. Han fick istället nöja sig med en fjärdeplats.
+
+Karstens närmaste rivaler till segern var istället Tor, som slutade som tvåa och CH som fick glädja sig åt 3:e platsen, den sistnämnda endast en viktig poäng före Grigori.
+
+```{r}
+#| echo: false
+#| message: false
+#| label: 2021result-table
+#| tbl-cap: "Slutresultat från KM 2021"
+
+km_2021 <- read_csv2(here("assets", "km2021.csv"))
+
+km_2021 <- km_2021 %>% 
+  rename("Namn" = "name", 
+         "1" = "points_1", 
+         "2" = "points_2",
+         "3" = "points_3",
+         "4" = "points_4",
+         "5" = "points_5",
+         "Summa Poäng" = "summa",
+          "Slutpoäng (4 bästa)" = "ponts_4_best")
+
+gt(km_2021)
+```
+
+## Vi blickar framåt
+
+Tidens vind blåser i full styrka! De som kämpade sig till tätpositioner förra året har all anledning att se sig oroligt omkring. Underifrån finns det gott om utmanare. Här är några att hålla ett extra öga på:
+
+Ernest som förra året slutade på 6:e platsen är tillbaka och visat upp en god form. Ian har legat i hårdträning och är inte längre den som blygt stiger åt sidan för någon motståndare. På damsidan har Sophie tagit ett stort kliv framåt och bakom henne är listan av yngre tjejer nästan oändligt med namn som Louise, Linnea, Eden och många fler.
+
+Det ska bli mycket intressant att se vad detta KM kommer att bjuda på. En sak vet vi dock redan nu: den kommer att bli mycket spännande!
+
+Så...träna hårt! Vi ses på KM den 27 september!
