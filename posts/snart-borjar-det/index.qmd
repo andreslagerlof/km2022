@@ -49,6 +49,8 @@ Visst var Grigori också med och varje gång han ställde upp gick han ut som se
 
 Karstens närmaste rivaler till segern var istället Tor, som slutade som tvåa och CH som fick glädja sig åt 3:e platsen, den sistnämnda endast en viktig poäng före Grigori.
 
+Låt oss titta på slutsammanställningen.
+
 ```{r}
 #| echo: false
 #| message: false
