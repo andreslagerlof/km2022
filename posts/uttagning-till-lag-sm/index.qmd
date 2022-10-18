@@ -22,5 +22,5 @@ Läs mer om uttagningsreglerna [här](https://fffkm2022.netlify.app/sm-uttagning
 
 På damsidan är det Sophie som har tagit ett kommando och leder före Louise och Linnea. På herrsidan är det Ernest som behåller tätplatsen och efter honom är det Tor och Ian.
 
-Ni hittar den aktuella ställningen för både damer och herrar i sin helhet [här](https://fffkm2022.netlify.app/sm-uttagning.html){#aktuell-ställning}\
+Ni hittar den aktuella ställningen för både damer och herrar i sin helhet [här](https://fffkm2022.netlify.app/sm-uttagning.html#aktuell-st%C3%A4llning)
 
