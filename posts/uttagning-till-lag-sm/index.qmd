@@ -16,11 +16,11 @@ Som ni vet sker uttagning baserat på ett kvalsystem där ni får poäng baserat
 
 Inom varje tävlingskategori finns 3 tävlingar, dvs totalt  tävlingar ingår i uttagningssystemet. Vidare räknas endast de två bästa resultaten inom respektive kategori vilket innebär att poängen från maximalt 4 tävlingar utgör underlag för laguttagning.
 
-Läs mer om uttagningsreglerna [här](sm-uttagning.qmd)
+Läs mer om uttagningsreglerna [här](https://fffkm2022.netlify.app/posts/uttagning-till-lag-sm/)
 
 ## Aktuell ställning
 
 På damsidan är det Sophie som har tagit ett kommando och leder före Louise och Linnea. På herrsidan är det Ernest som behåller tätplatsen och efter honom är det Tor och Ian.
 
-Ni hittar den aktuella ställningen i sin helhet [här](sm-uttagning.qmd){#aktuell-ställning}\
+Ni hittar den aktuella ställningen i sin helhet [här](https://fffkm2022.netlify.app/posts/uttagning-till-lag-sm/){#aktuell-ställning}\
 
