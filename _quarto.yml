@@ -8,6 +8,7 @@ website:
   favicon: favicon-16x16.png
   navbar:
     right:
+      - sm-uttagning.qmd
       - about.qmd
       - icon: github
         href: https://github.com/andreslagerlof/km2022
