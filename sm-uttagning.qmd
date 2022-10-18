@@ -293,7 +293,7 @@ Efter fyra genomförda tävlingar -- Uppsala Cup, SAF-pokalen, Kupittaa Tourname
 
 ### Aktuell ställning för damer
 
-Vi ser att Sophie har tagit ett stabilt grepp över poänglistan följd av Louise och därefter Linea.
+Vi ser att Sophie har tagit ett stabilt grepp över poänglistan följd av Louise och därefter Linea med Eden på en fjärdeplats.
 
 ```{r}
 #| label: prep_table
