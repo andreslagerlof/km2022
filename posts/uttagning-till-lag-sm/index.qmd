@@ -1,0 +1,26 @@
+---
+title: "Lag-SM uttagningen"
+author: "Andrés"
+date: "2022-10-18"
+image: "thumbnail.jpg"
+description: "Uppdateringar om uttagningen för lag-SM"
+---
+
+![Foto: Giorgio Trovato från Unsplash](thumbnail.jpg)
+
+Det är fullt förståeligt att ert fulla fokus ligger på nästa KM-deltävling, men vi som sportchefer vill ändå att ni ska försöka lyfta blicken till ett annat evenemang som även det förtjänar er uppmärksamhet nämligen lag-SM.
+
+## Kvalsystemet i korthet
+
+Som ni vet sker uttagning baserat på ett kvalsystem där ni får poäng baserat på tävlingsresultat. Det finns två kategorier av tävlingar: vanliga svenska tävlingar (samt KM) och satellite VC-tävlingar. Eftersom satellite VC är tuffare tävlingar så ger dessa också mer poäng.
+
+Inom varje tävlingskategori finns 3 tävlingar, dvs totalt  tävlingar ingår i uttagningssystemet. Vidare räknas endast de två bästa resultaten inom respektive kategori vilket innebär att poängen från maximalt 4 tävlingar utgör underlag för laguttagning.
+
+Läs mer om uttagningsreglerna [här](sm-uttagning.qmd)
+
+## Aktuell ställning
+
+På damsidan är det Sophie som har tagit ett kommando och leder före Louise och Linnea. På herrsidan är det Ernest som behåller tätplatsen och efter honom är det Tor och Ian.
+
+Ni hittar den aktuella ställningen i sin helhet [här](sm-uttagning.qmd){#aktuell-ställning}\
+
