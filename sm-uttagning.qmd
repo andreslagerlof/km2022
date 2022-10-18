@@ -1,0 +1,400 @@
+---
+title: "SM-uttagning"
+author: "Andrés"
+format: html
+editor: visual
+---
+
+## FFF:s uttagningssytem till lag-SM för damer och herrar
+
+Uttagning till lag 1, 2 och 3 sker efter poäng. Det finns totalt 6 uttagningstävlingar uppdelade i 2 kategorier, varav de 2 bästa tävlingsresultaten inom respektive kategori räknas. Det innebär att varje fäktare maximalt kan räkna poäng från 4 kvalificeringstävlingar, 2 från vanlig svenska tävlingar samt 2 från FIE satellitetävlingar.
+
+::: callout-important
+## Ändring!
+
+1.  *Drektkvalificering*: de fäktare som är rankade bland top 100 på FIE-rankningen för seniorer inom respektive klass (damer, herrar) är diektkvalificerade till 1:a laget.
+2.  *Förutsättningar för poäng*: på tävlingar som ingår i Svenska uttagningssystemet (alla utom KM) tilldelas endast poäng om man går vidare från från den första utslagningsomgången i respektive tävling.
+:::
+
+## Tävlingskategori 1, vanliga svenska tävlingar samt KM
+
+Tävlingar som ingår i denna kategori:
+
+-   Uppsala cup
+
+-   Bernadotte
+
+-   KM totalsammanställning där de 4 bästa tävlingarna räknas
+
+*Poängfördelning*:
+
+| Placering   | Poäng |
+|-------------|-------|
+| 1:a         | 30    |
+| 2:a         | 26    |
+| 3:a         | 22    |
+| 5 till 8    | 18    |
+| 9 till 16   | 14    |
+| 17 till 32  | 10    |
+| 33 till 64  | 6     |
+| 65 till 96  | 2     |
+| 97 till 128 | 1     |
+
+## Tävlingskategori 2, FIE satellite
+
+Tävlingar som ingår i denna kategori:
+
+-   SAF Pokalen / Rehbinderska priset
+
+-   Åbo, Kupittaa Tournament
+
+-   Oslo cup
+
+*Poängfördelning*:
+
+| Placering    | Poäng |
+|--------------|-------|
+| 1:a          | 50    |
+| 2:a          | 42    |
+| 3:a          | 34    |
+| 5 till 8     | 27    |
+| 9 till 16    | 20    |
+| 17 till 32   | 15    |
+| 33 till 64   | 10    |
+| 65 till 96   | 5     |
+| 97 till 128  | 3     |
+| 129 till 256 | 1     |
+
+```{r}
+#| echo: false
+#| message: false
+#| label: load-pkg
+
+# load libraries
+library(tidyverse)
+library(rvest)
+library(gt)
+
+```
+
+```{r}
+#| label: prep-input
+#| echo: false
+#| message: false
+
+# create df of competitions
+sm_qualitications <- tibble(
+  comp_no = as.character(1:6),
+  comp_name = c("uppsala", "saf", "abo", "bernadotte",  "oslo", "km")
+)
+
+# add variable for to separate different types of competitions
+sm_qualitications <- sm_qualitications %>% 
+  mutate(comp_type = if_else(
+    comp_name %in% 
+      c("uppsala", "bernadotte", "km"), "sv", "sat")
+    )
+  
+
+## Get url for each competition
+##  Get url for competition resutls
+# Uppsala cup herrar
+uppsala_m_url <- ("https://fencing.ophardt.online/sv/search/results-competition/135724?back=53700")
+
+# Uppsala cup damer
+uppsala_f_url <- ("https://fencing.ophardt.online/sv/search/results-competition/135723?back=53712") 
+
+# SAF-pokalen herrar
+saf_m_url <- ("https://fencing.ophardt.online/sv/search/results-competition/132927?back=53700")
+
+# SAF-pokalen damer
+  saf_f_url <- ("https://fencing.ophardt.online/sv/search/results-competition/132928?back=53712")
+
+# Åbo - Kuppitta herrar
+abo_m_url <- ("https://fencing.ophardt.online/sv/search/results-competition/133606?back=53700")
+
+# Åbo - Kuppitta damer
+abo_f_url <- ("https://fencing.ophardt.online/sv/search/results-competition/133605?back=53712")
+
+# Bernadotte for both female and male
+bernadotte_url <- ("https://fencing.ophardt.online/sv/search/results/24494")
+
+# Oslo cup
+
+
+# KM
+
+
+```
+
+```{r}
+#| label: write-functions
+#| echo: false
+#| message: false
+
+
+# function to scrape competition data
+com_results <- function(url){
+  read_html(url) %>% 
+    html_nodes("table.table.table-striped") %>% 
+    html_table() %>% 
+    .[[2]] # the second item in the list
+}
+
+# These functions takes a dataframe with a variable called "place" and calculates points
+
+# function for satelite wc
+calculate_points_sat_vc <- function(df, plats) {
+  tot <- df %>% 
+    mutate(points = case_when(
+      plats == 1 ~ 50,
+      plats == 2 ~ 42,
+      plats == 3 ~ 34,
+      plats <= 8 ~ 27,
+      plats <= 17 ~ 20,
+      plats <= 32 ~ 15,
+      plats <= 64 ~ 10,
+      plats <= 96 ~ 5,
+      plats <= 128 ~ 3,
+      plats <= 259 ~ 1,
+      TRUE ~ 0
+      )) %>% 
+  mutate(points = if_else(poule == "Poule", 0, points))
+}
+
+# function for ordinary competitions
+calculate_points_sv <- function(df, plats) {
+  tot <- df %>% 
+    mutate(points = case_when(
+      plats == 1 ~ 30,
+      plats == 2 ~ 26,
+      plats == 3 ~ 22,
+      plats <= 8 ~ 18,
+      plats <= 17 ~ 14,
+      plats <= 32 ~ 10,
+      plats <= 64 ~ 6,
+      plats <= 96 ~ 2,
+      plats <= 128 ~ 1,
+      TRUE ~ 0
+    )) %>% 
+    mutate(points = if_else(poule == "Poule" | poule == "1. omg", 0, points))
+}
+
+
+```
+
+```{r}
+#| label: load-data
+#| echo: false
+#| message: false
+
+# In the female competitions "Kön" is coded as "F" which is interpredet
+# as FALSE. Therefore female and male competitions has to be imported seprately
+# and then the datatype can be changed
+
+# create vector of female competitions as of now, exkl bernadotte
+competitions_f <- c(uppsala_f_url, saf_f_url, abo_f_url)
+
+# create vector of male competitions as of now
+competitions_m <- c(uppsala_m_url, saf_m_url, abo_m_url, bernadotte_url)
+
+## get data from web
+# female competitons
+df_f <- competitions_f %>% 
+  map_dfr(com_results, .id = "no")
+
+bernadotte_f_url <- read_html("https://fencing.ophardt.online/sv/search/results/24494")
+
+# add Berndadotte for females
+bernadotte_f_table <- bernadotte_f_url %>% 
+  html_nodes("table.table.table-striped") %>% 
+  html_table() %>% 
+  # get the forth item in the list
+  .[[4]]
+
+bernadotte_f_table$no <- "4"
+
+df_f <- bind_rows(df_f, bernadotte_f_table)
+
+# male competitions
+df_m <- competitions_m %>% 
+  map_dfr(com_results, .id = "no")
+
+
+```
+
+```{r}
+#| label: clean-data
+#| echo: false
+#| message: false
+
+## Prepare female data
+# clean data - female
+df_f <- df_f %>% 
+  janitor::clean_names() %>% 
+  mutate(klubb = str_squish(klubb),
+         kon = as.character(kon),
+         kon = "F")
+
+# add competition names
+df_f<- df_f %>% 
+  left_join(sm_qualitications, by = c("no" = "comp_no"))
+
+## Prepare male data
+# clean data - male
+df_m <- df_m %>% 
+  janitor::clean_names() %>% 
+  mutate(klubb = str_squish(klubb))
+
+# add competition names
+df_m<- df_m %>% 
+  left_join(sm_qualitications, by = c("no" = "comp_no"))
+
+
+# Merge the female and male datasets
+df <- bind_rows(df_f, df_m)
+
+# filter for only FFF fencers
+df_fff <- df %>% 
+  filter(klubb == "FFF Stockholm (SWE)" | namn == "CIMBOREVICS Ernests")
+
+# select relevant variables
+fff_df <- df_fff %>% 
+  select(no, comp_name, comp_type, plats, poule, namn, kon)
+
+# clean for bernadotte
+fff_df <- fff_df %>% 
+  mutate(poule = if_else(comp_name == "bernadotte", "", poule)) %>% 
+  mutate(poule = ifelse(comp_name == "bernadotte" & plats > 32, "1. omg", plats))
+```
+
+```{r}
+#| label: calculate-points
+#| echo: false
+#| message: false
+
+# calculate points for swedish competitions
+fff_points_sv <- fff_df %>% 
+  filter(comp_type == "sv") %>%
+  calculate_points_sv()
+
+# calculate points for satellite competitions
+fff_points_sat <- fff_df %>% 
+  filter(comp_type == "sat") %>% 
+  calculate_points_sat_vc()
+
+# cereate df with points from all competitions
+fff_points_tot <- bind_rows(fff_points_sv, fff_points_sat)
+```
+
+## Aktuell ställning
+
+Efter tre genomförda tävlingar -- Uppsala Cup, SAF-pokalen, Kupittaa Tournament -- varav de sista två var satellite VC har vi för närvarande följande totalsammanställning.
+
+### Aktuell ställning för damer
+
+Vi ser att Sophie har tagit ett stabilt grepp över poänglistan följd av Louise och därefter Linea som med knappast möjliga marginal placerar sig före Pia.
+
+```{r}
+#| label: prep_table
+#| echo: false
+#| message: false
+
+# calculate grand total points for all competitions 
+grand_tot <- fff_points_tot %>% 
+  group_by(namn, kon) %>%
+  summarise(sum_points = sum(points, na.rm = TRUE)) %>%
+  arrange(desc(sum_points))
+
+## split datasets to male and female datasets
+
+# female
+grand_tot_f <- grand_tot %>% 
+  filter(kon == "F")
+
+# male
+grand_tot_m <- grand_tot %>% 
+  filter(kon == "M")
+
+## Create female dataset
+piv_comp_f <- fff_points_tot %>%
+  filter(kon == "F") %>%
+  select(namn, comp_name, points) %>% 
+  pivot_wider(names_from = comp_name, values_from = points) 
+
+# Create new piv df with totals column
+res_f <- piv_comp_f %>%
+  full_join(grand_tot_f, by = "namn") %>% 
+  arrange(desc(sum_points))
+  
+# Add ranking
+res_f <- res_f %>% 
+  mutate(rank = min_rank(desc(sum_points))) %>%
+  relocate(rank, everything()) %>% 
+  select(-kon)
+
+# Change column order
+res_f <- res_f %>% 
+  relocate(bernadotte, .after = abo)
+
+# Capitalize first letter in column names
+res_f <- res_f %>% 
+  rename_with(str_to_title)
+
+# Rename columns for final table Note: change for each competition!!
+standings_f <- res_f %>% 
+  rename("#" = "Rank", "Namn" = "Namn", "Åbo" = "Abo",
+         "Summa Poäng" = "Sum_points")
+
+## Create male dataset
+piv_comp_m <- fff_points_tot %>%
+  filter(kon == "M") %>%
+  select(namn, comp_name, points) %>% 
+  pivot_wider(names_from = comp_name, values_from = points) 
+
+# Create new piv df with totals column
+res_m <- piv_comp_m %>%
+  full_join(grand_tot_m, by = "namn") %>% 
+  arrange(desc(sum_points))
+  
+# Add ranking
+res_m <- res_m %>% 
+  mutate(rank = min_rank(desc(sum_points))) %>%
+  relocate(rank, everything()) %>% 
+  select(-kon)
+
+# Capitalize first letter in column names
+res_m <- res_m %>% 
+  rename_with(str_to_title)
+
+# Rename columns for final table Note: change for each competition!!
+standings_m <- res_m %>% 
+  rename("#" = "Rank", "Namn" = "Namn", "Åbo" = "Abo",
+         "Summa Poäng" = "Sum_points")
+
+
+```
+
+### Aktuell ställning för damer
+
+Sophie har hittills gjort en strålande säsong och har därför en välförtjänt ledning före de unga sensationsfäktarna Louise och Linnea.
+
+```{r}
+#| label: female_table
+#| echo: false
+#| message: false
+
+standings_f %>% gt()
+```
+
+### Aktuell ställning för herrar
+
+På herrsidan har Ernest tagit på sig ledartröjan före Tor och Ian.
+
+```{r}
+#| label: male_table
+#| echo: false
+#| message: false
+
+standings_m %>% gt()
+```
