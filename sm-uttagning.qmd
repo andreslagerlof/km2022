@@ -289,11 +289,11 @@ fff_points_tot <- bind_rows(fff_points_sv, fff_points_sat)
 
 ## Aktuell ställning
 
-Efter tre genomförda tävlingar -- Uppsala Cup, SAF-pokalen, Kupittaa Tournament -- varav de sista två var satellite VC har vi för närvarande följande totalsammanställning.
+Efter fyra genomförda tävlingar -- Uppsala Cup, SAF-pokalen, Kupittaa Tournament och Bernadotte -- har vi för närvarande följande totalsammanställning.
 
 ### Aktuell ställning för damer
 
-Vi ser att Sophie har tagit ett stabilt grepp över poänglistan följd av Louise och därefter Linea som med knappast möjliga marginal placerar sig före Pia.
+Vi ser att Sophie har tagit ett stabilt grepp över poänglistan följd av Louise och därefter Linea.
 
 ```{r}
 #| label: prep_table
