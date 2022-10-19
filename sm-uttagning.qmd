@@ -289,11 +289,11 @@ fff_points_tot <- bind_rows(fff_points_sv, fff_points_sat)
 
 ## Aktuell ställning
 
-Efter fyra genomförda tävlingar -- Uppsala Cup, SAF-pokalen, Kupittaa Tournament och Bernadotte -- har vi för närvarande följande totalsammanställning.
+Så här långt har fyra tävlingar fäktats -- Uppsala Cup, SAF-pokalen, Kupittaa tournament och Bernadotte. Samtliga dessa hade såväl dam- som herrklass. Låt oss se på poänglistorna.
 
 ### Aktuell ställning för damer
 
-Vi ser att Sophie har tagit ett stabilt grepp över poänglistan följd av Louise och därefter Linea med Eden på en fjärdeplats.
+På damsidan är det Sophie som börjat detta fäktår starkt och plockat flest poäng. Efter henne har vi Louise och Linnea som också imponerat starkt.
 
 ```{r}
 #| label: prep_table
