@@ -363,6 +363,10 @@ res_m <- res_m %>%
   relocate(rank, everything()) %>% 
   select(-kon)
 
+# Change column order
+res_m <- res_m %>% 
+  relocate(bernadotte, .after = abo)
+
 # Capitalize first letter in column names
 res_m <- res_m %>% 
   rename_with(str_to_title)
