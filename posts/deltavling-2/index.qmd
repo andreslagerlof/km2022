@@ -3,7 +3,7 @@ title: "Rapport från deltävling nr 2"
 author: "Andrés"
 format: html
 title-block-banner-color: red
-description: "Grigori äntrar scenen och gör det han brukar göra - vann storstilat. Denna gång i en drabbning bestående av hela 24 peppade kombatanter."
+description: "Grigori entrar scenen och gör det han brukar göra - vann storstilat. Denna gång i en drabbning bestående av hela 24 peppade kombatanter."
 date: "2022-10-22"
 image: "grigori-segrare-dt-2.jpg"
 ---
