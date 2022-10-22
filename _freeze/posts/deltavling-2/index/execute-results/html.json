@@ -1,0 +1,14 @@
+{
+  "hash": "c36e027db0e249060cd6cf449f991a7e",
+  "result": {
+    "markdown": "---\ntitle: \"Rapport från deltävling nr 2\"\nauthor: \"Andrés\"\nformat: html\ntitle-block-banner-color: red\ndescription: \"Grigori äntrar scenen och gör det han brukar göra - vann storstilat. Denna gång i en drabbning bestående av hela 24 peppade kombatanter.\"\ndate: \"2022-10-22\"\nimage: \"grigori-segrare-dt-2.jpg\"\n---\n\n::: {.cell}\n\n:::\n\n\n![Grigori - kvällens segrare](grigori-segrare-dt-2.jpg){.column-page}\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

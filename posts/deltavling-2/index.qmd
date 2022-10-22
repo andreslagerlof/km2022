@@ -1,0 +1,181 @@
+---
+title: "Rapport från deltävling nr 2"
+author: "Andrés"
+format: html
+title-block-banner-color: red
+description: "Grigori äntrar scenen och gör det han brukar göra - vann storstilat. Denna gång i en drabbning bestående av hela 24 peppade kombatanter."
+date: "2022-10-22"
+image: "grigori-segrare-dt-2.jpg"
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| label: load-pkg
+
+# Load libraries ----
+
+library(tidyverse)
+library(stringr)
+library(here)
+library(gt)
+```
+
+![Grigori - kvällens segrare](grigori-segrare-dt-2.jpg){.column-page}
+
+Ni kommer säkert ihåg "skandalen i Åbo", där FFF fäktarna på herrsidan valde att kliva av tävlingen i ett tidigt stadium bara för att vara pigga och skaffa sig bästa möjliga förutsättningar för att prestera i KM-premiären. Detta agerande fick sportcheferna att ryta till och i skarpast möjliga ordalag förklara att vi kräver att FFF herrarna presterar på topp även i andra tävlingar än KM. Det är också värt att framföra att damerna naturligtvis aldrig skulle ägna sig åt något sådan, de är och har alltid varit förebilder för allt vad sportslighet innebär.
+
+Glädjande nog kan vi nu konstatera att herrfäktarna tagit till sig av detta och i fölla helgens tävling erövrades såväl silver- som bronsmedaljer. Stort grattis till Tor och Ernest för dessa prestationer!
+
+Nåväl, då kan vi äntligen rikta uppmärksamheten till mer upplyftande göromål genom att rapportera om torsdagens 2:a KM-deltävling.
+
+## Grigori gör entré
+
+Som ni minns var det Tor, Ernest och Karsten som i nämnd ordning, satte prägel på förra KM-deltvälingen. Denna gång valde Grigori att blanda sig in i leken, och som så många gånger tidigare var han omöjlig att rubba. Med hela 21 av 23 möjliga segrar blev Grigori tävlingens dominant. 
+
+Ja, ni såg rätt det var hela 24 fäktare som denna gång valde att mäta sina krafter med varandra, roligt! Vi kunde bland annat välkomna den skickliga dansken Robl samt Emanuele och dessutom glädja oss åt att Elvira, Axel och Johan Ström gjorde säsongsdebut i tävlingen.
+
+![Emanuele och Louise granskar protokollet](louise-protokoll.jpg)
+
+Den nyss nämnde Robel stortrivdes och samlade drivor av segrar i sin framfart, med hela 18 segrar placerade han sig som 3:a. Även Lucas kände sig väl till mods och samlade ihop 17 segrar vilket räckte till en 4:e plats före Karsten som också vann 17 matcher men hade sämre index. Elvira gjorde också en stark prestation genom att med 14 segrar säkra en imponerande 9:e plats.
+
+![Lucas var i toppform](lucas-ian.jpg)
+
+\
+Så här blev den sammanställda resultatlistan för deltävling 2 ut:
+
+```{r}
+
+#| echo: false
+#| message: false
+#| label: prep-data
+
+# Load data
+km <- read_csv2(here("assets", "data", "results.csv"))
+
+# Select relevant competitions
+km <- km %>% select(gender:km_2)
+
+# Clean data
+km_clean <- km %>%
+  # make long dataframe
+  pivot_longer(cols = c(km_1, km_2), 
+               names_to = "comp_no",
+               names_prefix = "km_",
+               values_to = "place")
+
+# Source calculate_points function
+source(here("assets", "functions", "calculate_points.R"))
+
+# Calculate points
+total <- calculate_points(km_clean)
+
+
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: comp_2-table
+
+# Prepare table
+df <- total %>% 
+  filter(comp_no == 2) %>% 
+  select(-c(gender, comp_no, points)) %>%
+  rename(Namn = name, Placering = place) %>% 
+  na.omit(Placering) %>% 
+  arrange(Placering)
+  
+gt(df) %>% 
+  tab_header(
+    title = "Resultat från KM, deltävling 1"
+  )
+
+```
+
+## Damklassen
+
+Genom sin niondeplats har Elvira redan tagit täten i damklassen före Louise. Så här ser den fullständiga listan ut:
+
+```{r}
+#| echo: false
+#| message: false
+#| label: calculate-totals
+#| 
+## Calculate grand total points for all competitions (1-2)
+grand_tot <- total %>% 
+  group_by(name) %>%
+  summarise(sum_points = sum(points, na.rm = TRUE)) %>% 
+  arrange(desc(sum_points))
+
+# prepare standings table
+piv_total <- total %>%
+  select(-place) %>% 
+  pivot_wider(
+    names_from = comp_no, 
+    values_from = points
+)
+
+# Create new piv df with totals column
+res <- piv_total %>%
+  full_join(grand_tot, by = "name") %>% 
+  arrange(desc(sum_points))
+  
+# Add ranking
+res <- res %>% 
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything())
+
+```
+
+## Herrklassen
+
+I herrklassen fick förra deltävlingens segrare, Tor se sig passerad av Ernest, Karsten och Andrés. Men alla som har följt KM tidigare vet att Tor inte kommer att låta detta passera utan han kommer med all sannolikhet blanda sig i segerdiskussionen.
+
+Här är den fullständiga listan:
+
+```{r}
+#| echo: false
+#| message: false
+#| label: ladies-table
+
+res %>% filter(gender == "f") %>% 
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything()) %>%
+  select(-gender) %>% 
+  rename(Nr = rank, Namn = name, Totalt = sum_points) %>% 
+  gt() %>% 
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2")
+  ) %>% 
+  tab_header(
+    title = "Resultat i damklassen",
+    subtitle = "Efter 2 deltävlingar"
+  )
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: mens-table
+
+res %>% filter(gender == "m") %>% 
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything()) %>%
+  select(-gender) %>% 
+  rename(Nr = rank, Namn = name, Totalt = sum_points) %>% 
+  gt() %>% 
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2")
+  ) %>% 
+  tab_header(
+    title = "Resultat i herrklassen",
+    subtitle = "Efter 2 deltävlingar"
+  )
+```
+
+Det var en fantastisk tävling, men nu är det dags att blicka framåt. Närmast är det Oslo Cup som står på menyn och redan torsdagen den 10 november är det dags för nästa KM-deltävling. Det finns således bara en sak att göra: träna för fulla muggar!
