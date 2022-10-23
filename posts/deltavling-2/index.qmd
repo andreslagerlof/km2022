@@ -87,7 +87,7 @@ df <- total %>%
   
 gt(df) %>% 
   tab_header(
-    title = "Resultat från KM, deltävling 1"
+    title = "Resultat från KM, deltävling 2"
   )
 
 ```
