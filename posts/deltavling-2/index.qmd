@@ -3,7 +3,7 @@ title: "Rapport från deltävling nr 2"
 author: "Andrés"
 format: html
 title-block-banner-color: red
-description: "Grigori entrar scenen och gör det han brukar göra - vann storstilat. Denna gång i en drabbning bestående av hela 24 peppade kombatanter."
+description: "Grigori entrar scenen och gör det han brukar göra - vann storstilat. Torsdagens drabbning drog fulla hus och samlade ett startfält bestående av hela 24 peppade kombatanter."
 date: "2022-10-22"
 image: "grigori-segrare-dt-2.jpg"
 ---
@@ -23,26 +23,26 @@ library(gt)
 
 ![Grigori - kvällens segrare](grigori-segrare-dt-2.jpg){.column-page}
 
-Ni kommer säkert ihåg "skandalen i Åbo", där FFF fäktarna på herrsidan valde att kliva av tävlingen i ett tidigt stadium bara för att vara pigga och skaffa sig bästa möjliga förutsättningar för att prestera i KM-premiären. Detta agerande fick sportcheferna att ryta till och i skarpast möjliga ordalag förklara att vi kräver att FFF herrarna presterar på topp även i andra tävlingar än KM. Det är också värt att framföra att damerna naturligtvis aldrig skulle ägna sig åt något sådan, de är och har alltid varit förebilder för allt vad sportslighet innebär.
+Ni kommer säkert ihåg "skandalen i Åbo", där FFF fäktarna på herrsidan valde att kliva av tävlingen i ett tidigt stadium bara för att vara pigga och skaffa sig bästa möjliga förutsättningar för att prestera i KM-premiären. Sportcheferna reagerade och i skarpast möjliga ordalag förmanades FFF:s herrfäktare att presterar på topp även i andra tävlingar än KM. Vi måste förtydliga att damerna naturligtvis aldrig skulle ägna sig åt något sådat, de är och har alltid varit förebilder för allt vad sportslighet innebär.
 
-Glädjande nog kan vi nu konstatera att herrfäktarna tagit till sig av detta och i förra helgens tävling erövrades såväl silver- som bronsmedaljer. Stort grattis till Tor och Ernest för dessa prestationer!
+Glädjande nog kan vi nu konstatera att herrfäktarna tagit åt sig av kritiken och i förra helgens tävling erövrades såväl silver- som bronsmedaljer. Stort grattis till Tor och Ernest för dessa prestationer!
 
 Nåväl, då kan vi äntligen rikta uppmärksamheten till torsdagens 2:a KM-deltävling.
 
 ## Grigori gör entré
 
-Som ni minns var det Tor, Ernest och Karsten som i nämnd ordning, satte prägel på förra KM-deltvälingen. Denna gång valde Grigori att blanda sig in i leken och som så många gånger tidigare var han omöjlig att rubba. Med hela 21 av 23 möjliga segrar blev Grigori tävlingens dominant. 
+Som ni minns var det Tor, Ernest och Karsten som i nämnd ordning, satte prägel på förra KM-deltvälingen. På torsdagen förändrades förutsättningarna genom att valde Grigori att blanda sig in i leken och som så många gånger tidigare var han omöjlig att rubba. Med hela 21 av 23 möjliga segrar blev Grigori tävlingens dominant. 
 
 Ja, ni såg rätt det var hela 24 fäktare som denna gång valde att mäta sina krafter med varandra, roligt! Vi kunde bland annat välkomna den skickliga dansken Robl samt Emanuele och dessutom glädja oss åt att Elvira, Axel och Johan Ström gjorde säsongsdebut i tävlingen.
 
 ![Emanuele och Louise granskar protokollet](louise-protokoll.jpg)
 
-Den nyss nämnde Robel stortrivdes och samlade drivor av segrar i sin framfart, med hela 18 segrar placerade han sig som 3:a. Även Lucas kände sig väl till mods och samlade ihop 17 segrar vilket räckte till en 4:e plats före Karsten som också vann 17 matcher men hade sämre index. Elvira gjorde också en stark prestation genom att med 14 segrar säkra en imponerande 9:e plats.
+Den nyss nämnde Robel stortrivdes och samlade drivor av segrar i sin framfart, med hela 18 segrar placerade han sig som 3:a. Även Lucas kände sig väl till mods och samlade ihop 17 vinster vilket räckte till en 4:e plats före Karsten som också vann 17 matcher men hade sämre index. Elvira gjorde också en stark prestation genom att med besegra 14 motståndare och därmed säkra en imponerande 9:e plats.
 
 ![Lucas var i toppform](lucas-ian.jpg)
 
 \
-Så här blev den sammanställda resultatlistan för deltävling 2 ut:
+Låt oss titta på den sammanställda resultatlistan för deltävling 2:
 
 ```{r}
 #| echo: false
@@ -151,9 +151,9 @@ res %>% filter(gender == "f") %>%
 
 ## Herrklassen
 
-I herrklassen fick förra deltävlingens segrare, Tor se sig passerad av Ernest, Karsten och Andrés. Men alla som har följt KM tidigare vet att Tor inte kommer att låta detta passera utan han kommer med all sannolikhet blanda sig i segerdiskussionen.
+I herrklassen fick förra deltävlingens segrare, Tor se sig passerad av Ernest, Karsten och Andrés. Men alla som har följt KM tidigare vet att Tor inte kommer att acceptera något sådant utan han kommer med all sannolikhet blanda sig i segerdiskussionen.
 
-Här är den fullständiga listan:
+Här är den fullständiga listan på herrsidan:
 
 ```{r}
 #| echo: false
@@ -177,4 +177,4 @@ res %>% filter(gender == "m") %>%
   )
 ```
 
-Det var en fantastisk tävling, men nu är det dags att blicka framåt. Närmast är det Oslo Cup som står på menyn och redan torsdagen den 10 november är det dags för nästa KM-deltävling. Det finns således bara en sak att göra: träna för fulla muggar!
+Torsdagens tillställning blev en fantastisk tävling, men nu är det dags att blicka framåt. Närmast är det Oslo Cup som står på menyn och redan torsdagen den 10 november är det dags för nästa KM-deltävling. Det finns således bara en sak att göra: träna för fulla muggar!
