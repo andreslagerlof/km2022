@@ -119,8 +119,11 @@ abo_f_url <- ("https://fencing.ophardt.online/sv/search/results-competition/1336
 # Bernadotte for both female and male
 bernadotte_url <- ("https://fencing.ophardt.online/sv/search/results/24494")
 
-# Oslo cup
+# Oslo cup herrar
+oslo_m_url <- ("https://fencing.ophardt.online/sv/search/results-competition/133619?back=55831")
 
+# Oslo cup damer
+oslo_f_url <- ("https://fencing.ophardt.online/sv/search/results-competition/133620?back=55949")
 
 # KM
 
@@ -159,7 +162,7 @@ calculate_points_sat_vc <- function(df, plats) {
       plats <= 259 ~ 1,
       TRUE ~ 0
       )) %>% 
-  mutate(points = if_else(poule == "Poule", 0, points))
+  mutate(points = if_else(poule == "Poule" | poule == "1. omg", 0, points))
 }
 
 # function for ordinary competitions
@@ -193,16 +196,21 @@ calculate_points_sv <- function(df, plats) {
 # and then the datatype can be changed
 
 # create vector of female competitions as of now, exkl bernadotte
-competitions_f <- c(uppsala_f_url, saf_f_url, abo_f_url)
+competitions_f <- c(uppsala_f_url, saf_f_url, abo_f_url, oslo_f_url)
 
 # create vector of male competitions as of now
-competitions_m <- c(uppsala_m_url, saf_m_url, abo_m_url, bernadotte_url)
+competitions_m <- c(uppsala_m_url, saf_m_url, abo_m_url, bernadotte_url, oslo_m_url)
 
 ## get data from web
 # female competitons
 df_f <- competitions_f %>% 
   map_dfr(com_results, .id = "no")
 
+# set oslo as no 5
+df_f <- df_f %>%                               # Replacing values
+  mutate(no = replace(no, no == 4, 5))
+
+# bernadotte for f
 bernadotte_f_url <- read_html("https://fencing.ophardt.online/sv/search/results/24494")
 
 # add Berndadotte for females
@@ -265,7 +273,7 @@ fff_df <- df_fff %>%
 # clean for bernadotte
 fff_df <- fff_df %>% 
   mutate(poule = if_else(comp_name == "bernadotte", "", poule)) %>% 
-  mutate(poule = ifelse(comp_name == "bernadotte" & plats > 32, "1. omg", plats))
+  mutate(poule = ifelse(comp_name == "bernadotte" & plats > 32, "1. omg", poule))
 ```
 
 ```{r}
@@ -393,7 +401,7 @@ standings_f %>% gt()
 
 ### Aktuell ställning för herrar
 
-På herrsidan har Ernest tagit på sig ledartröjan före Tor och Ian.
+På herrsidan har Ernest tagit på sig ledartröjan före Ian och Tor.
 
 ```{r}
 #| label: male_table
