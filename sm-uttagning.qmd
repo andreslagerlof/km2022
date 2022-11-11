@@ -297,7 +297,7 @@ fff_points_tot <- bind_rows(fff_points_sv, fff_points_sat)
 
 ## Aktuell ställning
 
-Så här långt har fyra tävlingar fäktats -- Uppsala Cup, SAF-pokalen, Kupittaa tournament och Bernadotte. Samtliga dessa hade såväl dam- som herrklass. Låt oss se på poänglistorna.
+Så här långt har fem tävlingar fäktats -- Uppsala Cup, SAF-pokalen, Kupittaa tournament, Bernadotte och Oslo Cup. Samtliga dessa hade såväl dam- som herrklass. Det är således endast KM kvar innan allt är klart. Låt oss se på poänglistorna.
 
 ### Aktuell ställning för damer
 
