@@ -299,10 +299,6 @@ fff_points_tot <- bind_rows(fff_points_sv, fff_points_sat)
 
 Så här långt har fem tävlingar fäktats -- Uppsala Cup, SAF-pokalen, Kupittaa tournament, Bernadotte och Oslo Cup. Samtliga dessa hade såväl dam- som herrklass. Det är således endast KM kvar innan allt är klart. Låt oss se på poänglistorna.
 
-### Aktuell ställning för damer
-
-På damsidan är det Sophie som börjat detta fäktår starkt och plockat flest poäng. Efter henne har vi Louise och Linnea som också imponerat starkt.
-
 ```{r}
 #| label: prep_table
 #| echo: false
