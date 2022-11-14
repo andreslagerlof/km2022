@@ -1,0 +1,172 @@
+---
+title: "Rapport från 3:e deltävlingen"
+author: "Andrés"
+description: "Den 3:e deltävlingen bjöd som vanligt på kamp och glädje!"
+date: "2022-11-14"
+image: "deltavling_3.jpg"
+---
+
+![](deltavling_3.jpg)
+
+```{r}
+#| echo: false
+#| message: false
+#| label: load-pkg
+
+# Load libraries ----
+
+library(tidyverse)
+library(stringr)
+library(here)
+library(gt)
+```
+
+Som vanligt förvandlades en helt vanlig torsdag till ett glödande inferno av viljor, kamp och glädje när startsignalen för den tredje KM-deltävlingen brakade loss förra torsdagen. 
+
+Denna gång saknade startfältet dessvärre några av de klubbens tyngsta namn. Grigori hade rest till Bern för att delta i Gran Prix de Berne, Karsten var skadad och Ernest arbetade kväll. Även Elvira och Sophie var borta på landslagsuppdrag. Naturligtvis väckte detta en storm av konspirationsteorier i ljusskygga forum på Internet: hade sportcheferna avsiktligt valt tillfället för att gynna sig själva?!
+
+Som svar gick sportcheferna ut med kraftfulla dementier, men ryktena tog åter fart när resultaten publicerades, men mer om detta senare.
+
+Ian som hade tillbringat höstlovet på läger i Israel tog med sitt solbrända ansikten direkt kommando över händelseutvecklingen. När tävlingen var över kunde han belåtet konstatera att hans framfart räckt hela vägen till en 3:e plats. Om det inte hade varit för tre snöpliga uddastödsförluster hade en medalj av ännu ädlare valör varit i hans ägo.
+
+En annan fäktare som välförtjänt hamnade i strålkastarljuset var Mathias Elmfeldt som med sin resoluta fäktning radade upp segrar, hela 11 stycken vilket gav honom en välförtjänt 4:e plats. Grattis!
+
+På damsidan blev Eden kvällens stora snackis. I tysthet samlade hon segrar på hög och kunde med ett leende promenera hem med en imponerande 11:e plats inskrivet i protokollet. Bra jobbat Eden!
+
+Dessutom var det många som gladde sig åt att Benedict valde just denna dag för att göra en bejublad tävlingspremiär. Välkommen Ben!
+
+Men nu tar vi upp tråden om skandalerna igen. Det föll sig nämligen inte bättre än att de båda sportcheferna, tillika tävlingsarrangörerna, oblygt skrev in sig på både första och andraplatsen. För de flesta var detta lite väl magstarkt och ett tydligt bevis på oförblommerad korruption. Det finns ännu inga bevis på att Tor ska ha deltagit i några ljusskygga aktiviteter, men en snabb titt på Andrés nattsvarta belastningsregister kan få den mest godtrogna att ana ugglor i mossen. Sista ordet i den här smutsiga affären är nog ännu inte sagt.
+
+![Sportchefernas ondskefulla leenden](tor-andres.jpeg)
+
+Nåväl, så här blev utfallet av den tredje deltävlingen:
+
+```{r}
+#| echo: false
+#| message: false
+#| label: prep-data
+
+# Load data
+km <- read_csv2(here("assets", "data", "results.csv"))
+
+# Select relevant competitions
+km <- km %>% select(gender:km_3)
+
+# Clean data
+km_clean <- km %>%
+  # make long dataframe
+  pivot_longer(cols = c(km_1:km_3), 
+               names_to = "comp_no",
+               names_prefix = "km_",
+               values_to = "place")
+
+# Source calculate_points function
+source(here("assets", "functions", "calculate_points.R"))
+
+# Calculate points
+total <- calculate_points(km_clean)
+
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: comp_2-table
+
+# Prepare table
+df <- total %>% 
+  filter(comp_no == 3) %>% 
+  select(-c(gender, comp_no, points)) %>%
+  rename(Namn = name, Placering = place) %>% 
+  na.omit(Placering) %>% 
+  arrange(Placering)
+  
+gt(df) %>% 
+  tab_header(
+    title = "Resultat från KM, deltävling 3"
+  )
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: calculate-totals
+
+## Calculate grand total points for all competitions (1-3)
+grand_tot <- total %>% 
+  group_by(name) %>%
+  summarise(sum_points = sum(points, na.rm = TRUE)) %>% 
+  arrange(desc(sum_points))
+
+# prepare standings table
+piv_total <- total %>%
+  select(-place) %>% 
+  pivot_wider(
+    names_from = comp_no, 
+    values_from = points
+)
+
+# Create new piv df with totals column
+res <- piv_total %>%
+  full_join(grand_tot, by = "name") %>% 
+  arrange(desc(sum_points))
+  
+# Add ranking
+res <- res %>% 
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything())
+```
+
+## Damklassen
+
+Så här långt är det Louise som har tagit ett stadigt kommando i damkategorin följd av Eden och Elvira.
+
+```{r}
+#| echo: false
+#| message: false
+#| label: ladies-table
+
+res %>% filter(gender == "f") %>% 
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything()) %>%
+  select(-gender) %>% 
+  rename(Nr = rank, Namn = name, Totalt = sum_points) %>% 
+  gt() %>% 
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2", "3")
+  ) %>% 
+  tab_header(
+    title = "Resultat i damklassen",
+    subtitle = "Efter 3 deltävlingar"
+  )
+```
+
+## Herrklassen
+
+Efter sportcheferna är det Ian som har varit höstens stjärna i KM-tävlingarna. Han har skaffat sig ett glapp på 10 poäng före Janne och tätt efter jagar Ernest, Mathias och Karsten. De båda sistnämnda med en start mindre.
+
+```{r}
+#| echo: false
+#| message: false
+#| label: mens-table
+
+res %>% filter(gender == "m") %>% 
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything()) %>%
+  select(-gender) %>% 
+  rename(Nr = rank, Namn = name, Totalt = sum_points) %>% 
+  gt() %>% 
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2", "3")
+  ) %>% 
+  tab_header(
+    title = "Resultat i herrklassen",
+    subtitle = "Efter 3 deltävlingar"
+  )
+```
+
+Nu är det dock ingen tid för annat än stenhård satsning till nästa KM-deltävling som går redan den 24:e november. Kör hårt!
