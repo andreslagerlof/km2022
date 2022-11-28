@@ -1,0 +1,170 @@
+---
+title: "Rapport från 4:e deltävlingen"
+author: "Andrés"
+description: "Vad är det för likhet mellan Grigori, Andrés och de fina riporna på bilden? Svaret på den enkla frågan hittar ni i resultatet från KM:s fjärde deltävling som exploderade förra torsdagen."
+date: "2022-11-28"
+image: "ripjakt.jpg"
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| label: load-pkg
+
+# Load libraries ----
+
+library(tidyverse)
+library(stringr)
+library(here)
+library(gt)
+```
+
+![](ripjakt.jpg)
+
+Oj, i torsdags förvandlades klubben till något som snarast kan liknas vid en gigantisk tryckkokare av intensiv energi och tävlingslust. Nästan alla var där: Ian, Grigori, Ernest och 18 andra utgjorde det imponerande startfältet.
+
+Francesco gick ut i ett ursinnigt tempo och lade ner det ena bytet efter det andra. När den initiala spurten ebbade ut kunde Francesco glädja sig åt en respektingivande 8:e placering. Med Ernest var det tvärt om. Han öppnade svagt men fäktade upp sig och slutade på en komfortabel 4:e plats.
+
+I övrigt var det som vanligt en tät kamp där den ovana delen av publikens blickar som vanligt riktades mot Grigori och Ernest. De som varit med förut såg dock tidigt tecken på vad som var i görningen. Bakom dom kända fixstjärnorna var det andra krafter i rörelse. 
+
+Många förknippar Thomas namn med en ständigt glad och möjligen blyg fäktare som på ett artigt sätt håller sig undan de skränande råskinnen som vi inte behöver nämna vid namn (men ni om ni tänker på tävlingsarrangören vet ni nog vem som avses). Några gånger per säsong byter emellertid denna trevliga person skepnad och förvandlas till en kylig prickskytt. Det godmodiga leendet förbyts till en isande kall blick som med precision hittar alla motståndares svagheter och betvingar alla som korsar hans väg. Detta var en sådan kväll. 
+
+När tävlingen var avklarad konstaterade Thomas att han ännu inte hade säkrat segern och en omfäktning på tre fäktare stod på tur. Med en låg, men intensiv röst kallade Thomas ut Andrés och Grigori till omfäktning. Thomas, som är en rutinerad jägare, förvandlade resten av tävlingen till vanlig drill på övningsbanan för lerduveskytte. Men några snabba aktioner var Andrés avklarad och därefter stod Grigori på tur. Grigori försvarade sig tappert, men till slut fick även han sträcka vapen inför Thomas obevekliga offensiv.
+
+Och därmed har vi har svaret på frågan vi ställde i ingressen. Här ser ni hur en iskall Thomas Schiöler ser ut när han kommer hem från en lyckad jakt. Exakt så såg han ut när han med lätta kliv lämnade fäktsalen som segrare i den 4:e KM-deltävlingen.
+
+![](jakt_thomas.jpg)
+
+I skuggan av Thomas dominans visade även Louise att hon är i god form. Med en imponerande 9:e plats kunde alla förstå att något extraordinärt var i görningen. Två dagar senare fick hon guldmetaljen i den danska huvudstadens ECC-tävling runt halsen. Stort grattis Louise! Vi måste också passa på att gratulera Linnea som även hon gjorde en fantastisk tävling i Köpenhamn.
+
+Så här blev utfallet av torsdagens tävling:
+
+```{r}
+#| echo: false
+#| message: false
+#| label: prep-data
+
+# Load data
+km <- read_csv2(here("assets", "data", "results.csv"))
+
+# Select relevant competitions
+km <- km %>% select(gender:km_4)
+
+# Clean data
+km_clean <- km %>%
+  # make long dataframe
+  pivot_longer(cols = c(km_1:km_4), 
+               names_to = "comp_no",
+               names_prefix = "km_",
+               values_to = "place")
+
+# Source calculate_points function
+source(here("assets", "functions", "calculate_points.R"))
+
+# Calculate points
+total <- calculate_points(km_clean)
+
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: comp_2-table
+
+# Prepare table
+df <- total %>% 
+  filter(comp_no == 4) %>% 
+  select(-c(gender, comp_no, points)) %>%
+  rename(Namn = name, Placering = place) %>% 
+  na.omit(Placering) %>% 
+  arrange(Placering)
+  
+gt(df) %>% 
+  tab_header(
+    title = "Resultat från KM, deltävling 4"
+  )
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: calculate-totals
+
+## Calculate grand total points for all competitions (1-3)
+grand_tot <- total %>% 
+  group_by(name) %>%
+  summarise(sum_points = sum(points, na.rm = TRUE)) %>% 
+  arrange(desc(sum_points))
+
+# prepare standings table
+piv_total <- total %>%
+  select(-place) %>% 
+  pivot_wider(
+    names_from = comp_no, 
+    values_from = points
+)
+
+# Create new piv df with totals column
+res <- piv_total %>%
+  full_join(grand_tot, by = "name") %>% 
+  arrange(desc(sum_points))
+  
+# Add ranking
+res <- res %>% 
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything())
+```
+
+## Damklassen
+
+Louise, som redan tidigare ledde damklassen har nu drygat ut sin ledning ytterligare.
+
+```{r}
+#| echo: false
+#| message: false
+#| label: ladies-table
+
+res %>% filter(gender == "f") %>% 
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything()) %>%
+  select(-gender) %>% 
+  rename(Nr = rank, Namn = name, Totalt = sum_points) %>% 
+  gt() %>% 
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2", "3", "4")
+  ) %>% 
+  tab_header(
+    title = "Resultat i damklassen",
+    subtitle = "Efter 4 deltävlingar"
+  )
+```
+
+## Herrklassen
+
+Ian ligger nu hack i häl på Tor vilket är en graranti för en rafflande uppgörelse i den sista KM-deltävlingen. Bakom dessa båda har Thomas knuffat sig förbi Ernest som dock har loggat en start mindre. Francesco har också klättrat två placeringar sedan förra gången. Så här ser den uppdaterade listan ut:
+
+```{r}
+#| echo: false
+#| message: false
+#| label: mens-table
+
+res %>% filter(gender == "m") %>% 
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything()) %>%
+  select(-gender) %>% 
+  rename(Nr = rank, Namn = name, Totalt = sum_points) %>% 
+  gt() %>% 
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2", "3", "4")
+  ) %>% 
+  tab_header(
+    title = "Resultat i herrklassen",
+    subtitle = "Efter 4 deltävlingar"
+  )
+```
+
+Scenen är nu riggad till den 5:e och sista KM-deltävlingen som kommer att explodera redan den 8:e december. Vi förstår alla att det kommer att bli ett vulkanutbrott av känslor när avgörandet ska falla. Träna infernaliskt hårt, det är inte långt kvar!
