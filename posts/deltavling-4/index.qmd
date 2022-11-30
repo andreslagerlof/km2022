@@ -1,7 +1,7 @@
 ---
 title: "Rapport från 4:e deltävlingen"
 author: "Andrés"
-description: "Vad är det för likhet mellan Grigori, Andrés och de fina riporna på bilden? Svaret på den enkla frågan hittar ni i resultatet från KM:s fjärde deltävling som exploderade förra torsdagen."
+description: "Vad är det för likhet mellan Grigori, Andrés och de fina fasanerna på bilden? Svaret på den enkla frågan hittar ni i resultatet från KM:s fjärde deltävling som exploderade förra torsdagen."
 date: "2022-11-28"
 image: "ripjakt.jpg"
 ---
