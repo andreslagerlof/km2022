@@ -293,6 +293,11 @@ fff_points_sat <- fff_df %>%
 
 # cereate df with points from all competitions
 fff_points_tot <- bind_rows(fff_points_sv, fff_points_sat)
+
+## Move the fff_ponts_tot tibble to the assets/data folder
+# library(here)
+# library(filesstrings)
+# move_files(here("sm_uttagning.Rdata"), here("assets", "data"))
 ```
 
 ## Aktuell ställning

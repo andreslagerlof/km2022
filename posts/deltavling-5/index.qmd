@@ -1,0 +1,210 @@
+---
+title: "Rapport från 5:e och sista deltävlingen"
+author: "Andrés"
+description: "Tack för denna gång! Bra kämpat alla, men nu måste vi satsa ännu hårdare!"
+date: "2022-12-10"
+image: "fff_km_plakett.jpg"
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| label: load-pkg
+
+# Load libraries ----
+
+library(tidyverse)
+library(stringr)
+library(here)
+library(gt)
+```
+
+![Ernest](ernest.jpg)
+
+Då var det till slut dags för det slutgiltiga avgörandet för årets KM i samband med femte och avslutande deltävlingen. Som vanligt var stämningen på topp bland de 17 modiga fäktare som skrivit in sig i tävlingsprotokollet. Bland dem stora namn som Ernest, Ian, Louise och förra tävlingens suverän Thomas, för att bara nämna några.
+
+Ackompanjerade till glada julklassiker i högtalarsystemet avverkades match efter match och snart kunde ett tydligt mönster börja skönjas. Louise som hela hösten imponerat fortsatte att briljera. Med ett glatt leende kunde hon logga seger efter seger i matchprotokollet. När kvällen var till ända summerade dessa till hela 10 stycken och en fantastisk 5:e plats!
+
+En annan positiv överraskning var Ludvig som med sina 9 segrar tog en respektingivande 7:e plats, en placering efter Janne som hade bättre stötindex. Hugo gjorde också en efterlängtad tävlingspremiär och gjorde väl ifrån sig, som tack fick han en stark 9:e plats.
+
+På ett nästan teatraliskt sätt slöts cirkeln av KM-tävlingar på samma sätt som de började, med Tor som segrare. Ni kommer säkert ihåg hur Tor kämpade till sig segern i slutet av september i den första KM-deltävlingen. Även denna gång gick var han ostoppbar, med sina 14 segrar blev han kvällens ohotade segrare.
+
+Allt flöt på som vanligt, och som vanligt var stämningen var god. Med jämna mellanrum gav Natali uppdatering om resultaten från världscuptävlingen i Vancouver där klubbens seniorlandslagfäktare Sophie och Elvira samtidigt fäktade.
+
+![Koll på resultaten i Vancouver](natali_linnea.jpg)
+
+Först när tävlingen var över förbyttes allt till en mardröm när tävlingsledningen, efter ett hemligt möte annonserade året klubbmästare. Till allas stora bestörtning tilldelade klubbens sportchef Tor ut segern till Andrés som även han är sportchef och tillika sitter i tävlingsledningen. Buropen susade från alla närvarande och ökade till orkanstyrka när dessa båda banditer, med högfärdiga leenden, oblygt lät sig fotograferas framför det stolta klubbmärket i fäktsalen. Alla förstod att detta omöjligt kunde vara annat än ren vänskapskorruption i dess mest avskyvärda form.
+
+Vi har tidigare rapporterat om oegentligheter i samband med KM, och att detta kan fortgå är obegripligt!? Vem granskar poängräkningen? Vem har lagt tävlingen på dagar då exempelvis Grigori inte är närvarande? Vem hittar på alla dumma regler? Det är uppenbart att en värdig fäktare skulle ha blivit klubbmästare om tävlingarna hade utspelats under rena former.
+
+![Fäktarna visar vad de tycker om tävlingsledningen](ernest_linnea.jpg)
+
+## Resultat från den 5 och sista deltävlingen
+
+```{r}
+#| echo: false
+#| message: false
+#| label: prep-data
+
+# Load data
+km <- read_csv2(here("assets", "data", "results.csv"))
+
+# Select relevant competitions
+km <- km %>% select(gender:km_5)
+
+# Clean data
+km_clean <- km %>%
+  # make long dataframe
+  pivot_longer(cols = c(km_1:km_5), 
+               names_to = "comp_no",
+               names_prefix = "km_",
+               values_to = "place")
+
+# Source calculate_points function
+source(here("assets", "functions", "calculate_points.R"))
+
+# Calculate points
+total <- calculate_points(km_clean)
+
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: comp_2-table
+
+# Prepare table
+df <- total %>% 
+  filter(comp_no == 5) %>% 
+  select(-c(gender, comp_no, points)) %>%
+  rename(Namn = name, Placering = place) %>% 
+  na.omit(Placering) %>% 
+  arrange(Placering)
+  
+gt(df) %>% 
+  tab_header(
+    title = "Resultat från KM, deltävling 5"
+  )
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| label: calculate-totals
+
+## Calculate grand total points for all competitions (1-5)
+grand_tot <- total %>% 
+  group_by(name) %>%
+  summarise(sum_points = sum(points, na.rm = TRUE)) %>% 
+  arrange(desc(sum_points))
+
+## Calculate total points for best 4 competitions
+top_4 <- total |>  
+  group_by(name) |> 
+  slice_max(points, 
+            n = 4,
+            with_ties = FALSE) |> 
+  summarise(sum_top4_points = sum(points, na.rm = TRUE)) |>  
+  arrange(desc(sum_top4_points))
+
+# prepare standings table
+piv_total <- total %>%
+  select(-place) %>% 
+  pivot_wider(
+    names_from = comp_no, 
+    values_from = points
+)
+
+# Create new piv df with totals and top 4 results columns
+res <- piv_total |> 
+  full_join(grand_tot, by = "name") |> 
+  full_join(top_4, by = "name") |> 
+  arrange(desc(sum_points))
+  
+# Add ranking
+res <- res %>% 
+  mutate(rank = min_rank(desc(sum_points))) %>% 
+  relocate(rank, everything())
+
+## Move the res tibble to the assets/data folder
+# library(here)
+# library(filesstrings)
+# save(res, file = "res_km_4.RData")
+# move_files(here("res_km_4.RData"), here("assets", "data"))
+```
+
+![Se vilka ondskefulla leenden](tor_andres_km_2022.jpg)
+
+## Damklassen
+
+Louise, som har dominerat damtävlingen tog till sist hem segern. Linnea lyckades gå om Eden i den sista deltävlingen.
+
+![Louise, segrare i damklassen](louise_saf_2022.jpg)
+
+```{r}
+#| echo: false
+#| message: false
+#| label: ladies-table
+
+res %>% filter(gender == "f") |>  
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) |>  
+  relocate(rank, everything()) |> 
+  select(-gender) |> 
+  rename(Nr = rank, Namn = name, 
+         Totalt = sum_points, `4 bästa` = sum_top4_points) |>  
+  gt() |>  
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2", "3", "4", "5")
+  ) |> 
+  tab_style(
+    cell_text(weight = "bold"),
+    locations = list(
+      cells_body(columns = `4 bästa`),
+      cells_column_labels(columns = `4 bästa`)
+      ) 
+  ) |> 
+  tab_header(
+    title = "Resultat i damklassen",
+    subtitle = "Poäng per deltävling"
+  )
+```
+
+## Herrklassen
+
+Tyvärr kan vi se att sportcheferna tilldelat första och andraplatsen till sig själva. Desto roligare är det att se att sjärnskottet Ian tagit klivet upp på pallpen dock endast med en poängs marginal till Ernest som denna gång fick nöja sig med en fjärdeplats!
+
+```{r}
+#| echo: false
+#| message: false
+#| label: mens-table
+
+res %>% filter(gender == "m") %>% 
+  # Add ranking
+  mutate(rank = min_rank(desc(sum_points))) |>  
+  relocate(rank, everything()) |> 
+  select(-gender) |> 
+  rename(Nr = rank, Namn = name, 
+         Totalt = sum_points, `4 bästa` = sum_top4_points) |>  
+  gt() |>  
+  tab_spanner(
+    label = "Deltävling nr.",
+    columns = c("1", "2", "3", "4", "5")
+  ) |> 
+  tab_style(
+    cell_text(weight = "bold"),
+    locations = list(
+      cells_body(columns = `4 bästa`),
+      cells_column_labels(columns = `4 bästa`)
+      ) 
+  ) |> 
+  tab_header(
+    title = "Resultat i herrklassen",
+    subtitle = "Poäng per deltävling"
+  )
+```
+
+Så vad kan vi göra åt denna skandal? En sak är uppenbar: vi måste träna ännu hårdare och ännu smartare så att vi alla kan besegra dom förfärliga sportcheferna! Börja därför redan nu att se över era träningsdagböcker, planera minutiöst er kosthållning och se till att kropp och själ får tillräcklig återhämtning mellan träningspassen. Håll dessutom utkik efter vårcupen som börjar efter nyår och framför allt: **se till att vinna lag SM!**
+
+*Tävlingsledningen tackar alla fantastiska fäkrare och tränare på FFF!!!*
