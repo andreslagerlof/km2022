@@ -1,22 +1,22 @@
 ﻿gender;name;km_1;km_2;km_3;km_4;km_5
-m;Tor Forsse;1;11;2;10;
-m;Ernest Cimborevics;2;6;;4;
+m;Tor Forsse;1;11;2;10;1
+m;Ernest Cimborevics;2;6;;4;4
 m;Karsten Kaping;3;5;;;
-m;Andrés Gomez;4;2;1;3;
-m;Ian Bäckström;5;7;3;5;
+m;Andrés Gomez;4;2;1;3;2
+m;Ian Bäckström;5;7;3;5;3
 m;C-H Wendt;6;;5;7;
-m;Jan Tivenius;7;8;6;6;
+m;Jan Tivenius;7;8;6;6;6
 m;Greger Forslöw;8;;;;
-m;Thomas Schiöler;9;12;8;1;
-m;Mathias Elmfeldt;10;10;4;11;
+m;Thomas Schiöler;9;12;8;1;11
+m;Mathias Elmfeldt;10;10;4;11;8
 m;Lucas Marcos;11;4;;;
-m;Ludvig Dahlström;12;18;;;
-m;Holger Claesson;13;15;15;14;
+m;Ludvig Dahlström;12;18;;;7
+m;Holger Claesson;13;15;15;14;15
 m;Peter Franzén;14;;;12;
-f;Linnea Eriksson;15;;;16;
-f;Louise Ulltjärn;16;14;13;9;
+f;Linnea Eriksson;15;;;16;13
+f;Louise Ulltjärn;16;14;13;9;5
 m;Anders Brunelius;17;22;14;17;
-m;Francesco Palletta;18;13;10;8;
+m;Francesco Palletta;18;13;10;8;10
 m;Erik Lahomaa;19;20;;;
 m;Teodor Dahlin;20;;;20;
 m;Olof Vrethammar;21;24;;;
@@ -24,11 +24,13 @@ f;Eden Rose Renda;22;17;11;;
 m;Grigori Beskin;;1;;2;
 m;Robl;;3;;;
 f;Elvira Mårtensson;;9;;;
-m;Johan Ström;;16;7;;
+m;Johan Ström;;16;7;;12
 m;Emanuele Stamuli;;19;16;19;
 m;Axel;;21;;;
-m;David Ramsberg;;23;;13;
-m;Carleman;;;12;15;
+m;David Ramsberg;;23;;13;16
+m;Carleman;;;12;15;14
 m;Benedict Chambers;;;9;;
 m;Mio Kimondo Öberg;;;17;21;
 m;Leopold;;;;18;
+;Hugo Wik;;;;;9
+;Sebastian Homström;;;;;17
