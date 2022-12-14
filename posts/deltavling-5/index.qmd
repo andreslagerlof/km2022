@@ -173,7 +173,16 @@ res %>% filter(gender == "f") |>
 
 ## Herrklassen
 
-Tyvärr kan vi se att sportcheferna tilldelat första och andraplatsen till sig själva. Desto roligare är det att se att sjärnskottet Ian tagit klivet upp på pallpen dock endast med en poängs marginal till Ernest som denna gång fick nöja sig med en fjärdeplats!
+Tyvärr kan vi se att sportcheferna tilldelat första och andraplatsen till sig själva. Desto roligare är det att se att allas favorit Ernest tog 3:e platsen, endast en stöt före sjärnskottet Ian som denna gång fick nöja sig med en fjärdeplats!
+
+::: callout-important
+## Ändring!
+
+Ordningen är korrigerad så nu är namnen på fäktarna med placering 1 till 4 rätt. Vår avdelning för dataanalys har fått erfordliga reprimander för sin inkompetens. Eventuella rättsliga åtgärder utreds.
+:::
+  
+<br/>
+<br/>
 
 ```{r}
 #| echo: false
@@ -182,9 +191,10 @@ Tyvärr kan vi se att sportcheferna tilldelat första och andraplatsen till sig 
 
 res %>% filter(gender == "m") %>% 
   # Add ranking
-  mutate(rank = min_rank(desc(sum_points))) |>  
+  mutate(rank = min_rank(desc(sum_top4_points))) |>  
   relocate(rank, everything()) |> 
   select(-gender) |> 
+  arrange(rank) |> 
   rename(Nr = rank, Namn = name, 
          Totalt = sum_points, `4 bästa` = sum_top4_points) |>  
   gt() |>  
